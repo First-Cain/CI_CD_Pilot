@@ -1,0 +1,4 @@
+D:/Hard_Code/VS Projects/CI_CD_Pilot/build/windows-clang/CMakeFiles/CI_CD_Pilot.dir
+D:/Hard_Code/VS Projects/CI_CD_Pilot/build/windows-clang/CMakeFiles/test.dir
+D:/Hard_Code/VS Projects/CI_CD_Pilot/build/windows-clang/CMakeFiles/edit_cache.dir
+D:/Hard_Code/VS Projects/CI_CD_Pilot/build/windows-clang/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/Hard_Code/VS Projects/CI_CD_Pilot/build/windows-clang/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
