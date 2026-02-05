@@ -8,11 +8,6 @@ endif()
 
 project ("CI_CD_Pilot")
 
-# Добавьте источник в исполняемый файл этого проекта.
-add_executable (CI_CD_Pilot 
-"CI_CD_Pilot.cpp" 
-)
-
 # Устанавливаем стандарт C++23
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -38,23 +33,77 @@ elseif(UNIX)
     message(STATUS "Building for Unix-like (Linux)")
 endif()
 
+# Подключаем vcpkg (уже в presets, но для универсальности)
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "D:/Hard_Code/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+endif()
 
-# Includes (директории заголовков)
+# Найди GTest (без CONFIG для vcpkg)
+find_package(GTest REQUIRED)
+
+# Executable
+add_executable (CI_CD_Pilot 
+    "CI_CD_Pilot.cpp" 
+    "TestFile.cpp" 
+    "tests/test_main.cpp"
+)
+
+# Includes
 target_include_directories(CI_CD_Pilot PRIVATE 
-  "${PROJECT_SOURCE_DIR}"  # Текущая папка
-  # Если есть libs: /path/to/includes
+    "${PROJECT_SOURCE_DIR}"
 )
 
-# Libs (если нужны, e.g. pthread для multi-thread)
+# Link gtest
 target_link_libraries(CI_CD_Pilot PRIVATE 
-  # pthread  # Если нужно; для Windows/Linux auto
+    GTest::gtest 
+    GTest::gtest_main 
+    GTest::gmock
 )
 
 
-# Тесты (если нужны)
-enable_testing()
-add_test(NAME BasicTest COMMAND CI_CD_Pilot)  # Пример простого теста
 
-# add_test(NAME AnotherTest COMMAND CI_CD_Pilot arg1 arg2)  # Другие тесты с аргументами
-# Можно добавить больше тестов по мере необходимости
-# Конец CMakeLists.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Скачиваем GTest
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG v1.14.0  # Стабильная версия
+)
+FetchContent_MakeAvailable(googletest)
+
+# Тестовый executable
+add_executable(tests "tests/test_main.cpp")
+target_link_libraries(tests PRIVATE GTest::gtest_main)
+
+# Кроссплатформенные опции для тестов (C++23)
+set_target_properties(tests PROPERTIES
+  CXX_STANDARD 23
+  CXX_STANDARD_REQUIRED YES
+)
+
+# Добавляем источники из основного кода (чтобы тесты видели классы)
+target_sources(tests PRIVATE "TestFile.cpp")  # .cpp с реализацией класса
+
+# Includes для тестов
+target_include_directories(tests PRIVATE "${PROJECT_SOURCE_DIR}")
+
+# Добавляем тест в ctest (для CI/CD)
+
+
+# Тесты
+enable_testing()
+add_test(NAME UnitTests COMMAND tests)
+add_test(NAME BasicTest COMMAND CI_CD_Pilot)

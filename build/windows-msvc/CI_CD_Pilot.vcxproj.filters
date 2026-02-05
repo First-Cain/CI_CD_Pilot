@@ -4,6 +4,12 @@
     <ClCompile Include="D:\Hard_Code\VS Projects\CI_CD_Pilot\CI_CD_Pilot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Hard_Code\VS Projects\CI_CD_Pilot\TestFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Hard_Code\VS Projects\CI_CD_Pilot\tests\test_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Hard_Code\VS Projects\CI_CD_Pilot\CMakeLists.txt" />

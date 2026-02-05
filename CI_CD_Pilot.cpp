@@ -1,28 +1,7 @@
 ﻿#include <iostream>
 #include <version>
 
-
-
-
-// Тестовый класс для CI/CD пайплайна
-class TestClass {
-
-	int a_{ 15 };
-
-	public:
-	static void display_message() {
-		std::cout << "This is a test class for CI/CD pipeline.\n";
-	}
-
-	void new_test_foo() const
-	{
-		std::cout << "test " << a_ << "\n";
-	}
-};
-
-
-
-
+#include "TestFile.hpp"
 
 
 
@@ -35,14 +14,15 @@ int main()
 
 	obj.new_test_foo();
 
-	constexpr int a{ 2 };
+	constexpr int a{ 5 };
 
 
 
 
-	std::cout << "	[" << a << "]	 WTF BRED\n\n\n";
 
-	std::cout << "	[" << a << "]	Hello CMake.\n\n";
+	std::cout << "	[" << a << "]	WTF BRED\n";
+
+	std::cout << "	[" << a << "]	Hello CMake.\n";
 
 
 
