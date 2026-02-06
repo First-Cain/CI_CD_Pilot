@@ -2,7 +2,7 @@ name: CI/CD Pilot  # Имя пайплайна
 
 on:  # Когда запускать
   push:  # На каждый push
-    branches: [master]  # Только на main (добавь другие, если нужно)
+    branches: [master] 
   pull_request:  # На PR
     branches: [master]
 
@@ -21,17 +21,33 @@ jobs:
           cmake .  # Если CMakeLists.txt есть; иначе make или msbuild для VS
           make     # Или cmake --build .
           echo "Сборка завершена ✅"
+      - name: Сохранить артефакты (built files)
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |  # Сохраняем exe/bin
+            CI_CD_Pilot
+            tests  # Если tests.exe сгенерирован в build
 
   test:  # Job 2: Тесты (пока заглушка, добавим реальные позже)
     runs-on: ubuntu-latest
     needs: build  # Запускается после успешной сборки
     steps:
-      - uses: actions/checkout@v4
-      - name: Запуск тестов
+      - uses: actions/checkout@v4  # Нужен код для cmake
+      - name: Установка зависимостей
+        run: sudo apt update && sudo apt install cmake g++
+      - name: Конфигурация тестов
+        run: cmake .
+      - name: Скачать артефакты из build
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+      - name: Сборка и запуск тестов
         run: |
           echo "=== Автотесты ==="
-          echo "Здесь будут реальные тесты (e.g. ./tests или gtest)"
-          echo "Тесты прошли ✅"  # Пока просто эхо; если fail — пайплайн красный
+          make tests  # Собрать тесты (если не в artifacts)
+          ./tests     # Запуск; fail — красный job
+          echo "Тесты прошли ✅"  # Только если success
 
   deploy:  # Job 3: Деплой (заглушка)
     runs-on: ubuntu-latest
