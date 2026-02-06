@@ -13,7 +13,7 @@ int main()
 
 	obj.new_test_foo();
 
-	constexpr int a{ 5 };
+	constexpr int a{ 2 };
 
 
 
