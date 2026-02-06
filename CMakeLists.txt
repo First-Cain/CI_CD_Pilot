@@ -59,18 +59,21 @@ else()
 endif()
 
 # Тестовый executable (отдельный от main)
-add_executable(tests "tests/test_main.cpp")
-target_sources(tests PRIVATE "TestFile.cpp")  # Реализация класса для тестов
-target_link_libraries(tests PRIVATE GTest::gtest_main)  # GTest link только здесь
+add_executable(unit_tests "tests/test_main.cpp")
+target_sources(unit_tests PRIVATE "TestFile.cpp")  # Реализация класса для тестов
+target_link_libraries(unit_tests PRIVATE GTest::gtest_main)  # GTest link только здесь
 
 # C++23 для тестов
-set_target_properties(tests PROPERTIES
+set_target_properties(unit_tests PROPERTIES
   CXX_STANDARD 23
   CXX_STANDARD_REQUIRED ON
 )
 
+# Output dir for exe (bin/ to avoid root conflicts)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 # Includes для тестов
-target_include_directories(tests PRIVATE "${PROJECT_SOURCE_DIR}")
+target_include_directories(unit_tests PRIVATE "${PROJECT_SOURCE_DIR}")
 
 # Тесты для ctest (в CI/CD)
 enable_testing()
