@@ -60,15 +60,11 @@ target_link_libraries(CI_CD_Pilot PRIVATE
     GTest::gmock
 )
 
-
-
-
-
-
-
-
-
-
+# Кроссплатформенные опции для C++23
+set_target_properties(CI_CD_Pilot PROPERTIES
+  CXX_STANDARD 23
+  CXX_STANDARD_REQUIRED YES
+)
 
 
 

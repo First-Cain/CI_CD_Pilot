@@ -1,26 +1,26 @@
-//// Для capture output (void-методы печатают в cout)
-//#include <sstream>  // Для stringstream — перехват cout
-//#include <iostream> // Для std::cout
-//#include <gtest/gtest.h>  // Основной header GTest (EXPECT_*, ASSERT_*)
-//#include "TestFile.hpp"   // Включаем header класса для доступа к методам
-//
-//
-//
-//// Тесты группируются в suites (TestClassTests) для организации
-//TEST( TestClassTests, DisplayMessage ) {
-//	// Перехватываем output, чтобы проверить, что метод печатает
-//	std::stringstream buffer;          // Фейковый stream вместо cout
-//	std::streambuf* old = std::cout.rdbuf( buffer.rdbuf() );  // Redirect cout
-//
-//	TestClass::display_message();  // Вызываем статический метод
-//
-//	std::cout.rdbuf( old );  // Восстанавливаем cout
-//	std::string output = buffer.str();  // Получаем, что напечаталось
-//
-//	// Проверяем: EXPECT — non-fatal (тест продолжается даже если fail)
-//	EXPECT_EQ( output, "This is a test class for CI/CD pipeline.\n" );
-//}
-//
+// Для capture output (void-методы печатают в cout)
+#include <sstream>  // Для stringstream — перехват cout
+#include <iostream> // Для std::cout
+#include <gtest/gtest.h>  // Основной header GTest (EXPECT_*, ASSERT_*)
+#include "TestFile.hpp"   // Включаем header класса для доступа к методам
+
+
+
+// Тесты группируются в suites (TestClassTests) для организации
+TEST( TestClassTests, DisplayMessage ) {
+	// Перехватываем output, чтобы проверить, что метод печатает
+	std::stringstream buffer;          // Фейковый stream вместо cout
+	std::streambuf* old = std::cout.rdbuf( buffer.rdbuf() );  // Redirect cout
+
+	TestClass::display_message();  // Вызываем статический метод
+
+	std::cout.rdbuf( old );  // Восстанавливаем cout
+	std::string output = buffer.str();  // Получаем, что напечаталось
+
+	// Проверяем: EXPECT — non-fatal (тест продолжается даже если fail)
+	EXPECT_EQ( output, "This is a test class for CI/CD pipeline.\n" );
+}
+
 //TEST( TestClassTests, NewTestFoo ) {
 //	TestClass obj;  // Создаём объект
 //
