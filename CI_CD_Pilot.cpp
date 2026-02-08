@@ -13,14 +13,14 @@ int main()
 
 	obj.new_test_foo();
 
-	constexpr int a{ 3 };
+
+	constexpr int a{ 2 };
 
 
 
 
 
 	std::cout << "	[" << a << "]	WTF BRED\n";
-
 	std::cout << "	[" << a << "]	Hello CMake.\n";
 
 

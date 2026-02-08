@@ -13,6 +13,19 @@ endif()
 
 project("CI_CD_Pilot")
 
+# GTest: Conditional — если vcpkg, find_package; else FetchContent
+if(VCPKG_TOOLCHAIN)
+  find_package(GTest CONFIG REQUIRED)  # vcpkg mode
+else()
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG v1.14.0
+  )
+  FetchContent_MakeAvailable(googletest)
+endif()
+
 # Основной executable
 add_executable(CI_CD_Pilot 
   "CI_CD_Pilot.cpp" 
@@ -45,19 +58,6 @@ target_include_directories(CI_CD_Pilot PRIVATE "${PROJECT_SOURCE_DIR}")
 # Libs для main (через vcpkg, e.g. find_package(YourLib REQUIRED); target_link_libraries(... YourLib::YourLib))
 target_link_libraries(CI_CD_Pilot PRIVATE)  # Добавляй здесь твои libs, e.g. uWebSockets::uWebSockets
 
-# GTest: Conditional — если vcpkg, find_package; else FetchContent
-if(VCPKG_TOOLCHAIN)
-  find_package(GTest CONFIG REQUIRED)  # vcpkg mode
-else()
-  include(FetchContent)
-  FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG v1.14.0
-  )
-  FetchContent_MakeAvailable(googletest)
-endif()
-
 # Тестовый executable (отдельный от main)
 add_executable(unit_tests "tests/test_main.cpp")
 target_sources(unit_tests PRIVATE "TestFile.cpp")  # Реализация класса для тестов
@@ -77,5 +77,5 @@ target_include_directories(unit_tests PRIVATE "${PROJECT_SOURCE_DIR}")
 
 # Тесты для ctest (в CI/CD)
 enable_testing()
-add_test(NAME UnitTests COMMAND tests)
+add_test(NAME UnitTests COMMAND unit_tests)
 add_test(NAME BasicTest COMMAND CI_CD_Pilot)  # Опционально для main
