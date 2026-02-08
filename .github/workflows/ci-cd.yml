@@ -14,20 +14,21 @@ jobs:
       - name: Установка зависимостей
         run: |
           sudo apt update
-          sudo apt install cmake g++  # Для C++ сборки
+          sudo apt install cmake g++
       - name: Сборка проекта
         run: |
           echo "=== Сборка проекта ==="
-          cmake .  # Если CMakeLists.txt есть; иначе make или msbuild для VS
-          make     # Или cmake --build .
+          cmake .
+          make
+          make unit_tests
           echo "Сборка завершена ✅"
       - name: Сохранить артефакты (built files)
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: |  # Сохраняем exe/bin
+          path: |
             CI_CD_Pilot
-            tests  # Если tests.exe сгенерирован в build
+            unit_tests
 
   test:  # Job 2: Тесты (пока заглушка, добавим реальные позже)
     runs-on: ubuntu-latest
@@ -41,7 +42,8 @@ jobs:
       - name: Запуск тестов
         run: |
           echo "=== Автотесты ==="
-          ./tests  # Run; fail — red
+          chmod +x unit_tests  # Make exe runnable on Linux
+          ./unit_tests  # Run; if fail — red with GTest log
           echo "Тесты прошли ✅"
 
   deploy:  # Job 3: Деплой (заглушка)

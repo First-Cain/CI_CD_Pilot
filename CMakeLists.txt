@@ -70,7 +70,7 @@ set_target_properties(unit_tests PROPERTIES
 )
 
 # Output dir for exe (bin/ to avoid root conflicts)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Includes для тестов
 target_include_directories(unit_tests PRIVATE "${PROJECT_SOURCE_DIR}")

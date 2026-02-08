@@ -50,6 +50,9 @@ int main()
 	std::cout << "	[" << a << "]	Unknown compiler\n";
 #endif
 
+#ifdef WIN32
+	system( "pause" );
+#endif
 
 
 	return 0;
